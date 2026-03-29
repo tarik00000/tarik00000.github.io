@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tarik Podgorica | Semaxta - Portfolio</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #00d2ff;
+            --secondary: #3a7bd5;
+            --accent: #ff007b;
+            --bg: #0f172a;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --text: #f8fafc;
+        }
+
+        /* --- Scroll Animation Logic --- */
+        @keyframes reveal {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .scroll-reveal {
+            animation: reveal linear both;
+            animation-timeline: view();
+            animation-range: entry 10% cover 30%;
+        }
+
+        body {
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: var(--text);
+            margin: 0;
+            scroll-behavior: smooth;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container { max-width: 1100px; margin: auto; padding: 20px; }
+
+        /* --- Header Styling --- */
+        header {
+            min-height: 90vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 40px 20px;
+            animation: reveal 1s ease-out; /* Load animation for header */
+        }
+
+        /* --- Image Zoom Logic --- */
+        .img-container {
+            width: 100%;
+            max-width: 500px;
+            height: 350px; /* Define a height for desktop */
+            border-radius: 20px;
+            border: 2px solid rgba(0, 210, 255, 0.3);
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            overflow: hidden; /* Important for crop */
+            background: #1e293b;
+        }
+
+        .profile-img {
+            width: 100%;
+            height: 100%;
+            /* Zoom Logic: scale up and position top to hide other person */
+            transform: scale(1.4); 
+            object-fit: cover;
+            object-position: top center; 
+            transition: transform 0.5s ease;
+        }
+
+        h1 { font-size: 3.5rem; margin: 10px 0; background: linear-gradient(to right, #00d2ff, #91eae4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tagline { font-size: 1.4rem; color: #91eae4; margin-bottom: 20px; font-weight: 300; }
+
+        .social-links a { 
+            color: var(--text); font-size: 1.8rem; margin: 0 15px; transition: 0.3s; 
+            text-decoration: none;
+            display: inline-block;
+        }
+        .social-links a:hover { color: var(--primary); transform: translateY(-5px) scale(1.1); }
+
+        /* --- Glassmorphism Cards --- */
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2.5rem;
+            margin-bottom: 40px;
+            transition: 0.3s;
+        }
+        .glass-card:hover { 
+            border-color: rgba(0, 210, 255, 0.4); 
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 210, 255, 0.1);
+        }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 25px; }
+
+        h2 { color: var(--primary); font-size: 2.2rem; margin-bottom: 25px; display: flex; align-items: center; gap: 15px; }
+        h3 { color: #91eae4; margin-top: 0; }
+
+        .service-tag {
+            background: rgba(0, 210, 255, 0.08);
+            border-left: 4px solid var(--primary);
+            padding: 20px;
+            border-radius: 8px;
+            height: 100%;
+            transition: 0.3s;
+        }
+        .service-tag:hover { background: rgba(0, 210, 255, 0.15); }
+
+        .btn {
+            background: linear-gradient(to right, var(--primary), var(--secondary));
+            color: white; padding: 12px 30px; text-decoration: none;
+            border-radius: 30px; font-weight: bold; display: inline-block;
+            transition: 0.3s; border: none; cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+        
+        .btn:hover { box-shadow: 0 5px 20px rgba(0, 210, 255, 0.5); transform: translateY(-2px); }
+
+        .olx-btn { background: #37bb2f; margin-left: 10px; }
+
+        ul.check-list { list-style: none; padding: 0; }
+        ul.check-list li { margin-bottom: 12px; }
+        ul.check-list li::before { content: "⚡ "; color: var(--primary); font-weight: bold; }
+
+        .badge {
+            background: var(--secondary);
+            padding: 4px 12px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            display: inline-block;
+            margin-bottom: 5px;
+            transition: 0.3s;
+        }
+        .badge:hover { background: var(--accent); }
+
+        .cta-box {
+            text-align: center;
+            padding: 25px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 15px;
+            margin-top: 50px;
+            border: 1px dashed rgba(255,255,255,0.1);
+        }
+
+        footer { text-align: center; padding: 60px; opacity: 0.6; border-top: 1px solid rgba(255,255,255,0.1); }
+
+        /* --- Mobile Overrides --- */
+        @media (max-width: 768px) {
+            .img-container {
+                width: 300px;
+                height: 300px;
+                border-radius: 50%; /* Circle on Mobile */
+                border: 4px solid var(--primary);
+            }
+            .profile-img {
+                /* Adjust zoom for mobile circle view if needed */
+                transform: scale(1.5); 
+                object-position: top center;
+            }
+            h1 { font-size: 2.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            header { min-height: auto; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="img-container">
+            <img src="image.jpg" alt="Tarik Podgorica" class="profile-img">
+        </div>
+        
+        <h1>Tarik Podgorica</h1>
+        <p class="tagline">Electrical Technician | Robotics Innovator | Full-Stack Developer</p>
+        
+        <div class="social-links">
+            <a href="https://github.com/tarik00000" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+            <a href="https://www.youtube.com/@SEMAXTA" target="_blank" title="YouTube"><i class="fab fa-youtube"></i></a>
+            <a href="https://tiktok.com/@semaxta" target="_blank" title="TikTok"><i class="fab fa-tiktok"></i></a>
+            <a href="https://semaxta.wuaze.com" target="_blank" title="Official Website"><i class="fas fa-globe"></i></a>
+            <a href="mailto:tare.po08@gmail.com" title="Email"><i class="fas fa-envelope"></i></a>
+        </div>
+        
+        <div style="margin-top: 30px;">
+            <a href="#projects" class="btn">Explore My Work</a>
+            <a href="https://www.olx.ba/profil/elio17" target="_blank" class="btn olx-btn">OLX Services</a>
+        </div>
+    </header>
+
+    <div class="container">
+        
+        <section class="glass-card scroll-reveal">
+            <h2><i class="fas fa-user-astronaut"></i> About Me</h2>
+            <p>I am an 18-year-old Electrical Engineering student from Sarajevo, specializing in <b>Power Systems (Energetika)</b>. My unique strength lies in bridging <b>High-Voltage engineering</b> with <b>Low-Voltage electronics</b> and modern software. Under my brand <b>Semaxta</b>, I focus on robotics, professional hardware repair, and innovative tech solutions.</p>
+        </section>
+
+        <section class="glass-card scroll-reveal">
+            <h2><i class="fas fa-graduation-cap"></i> Education & Certifications</h2>
+            <div class="grid">
+                <div class="service-tag">
+                    <h3>Academic Foundation</h3>
+                    <ul class="check-list">
+                        <li><b>High School for Electrical Engineering:</b> Specialist in Power Engineering (High/Low Voltage).</li>
+                        <li><b>AI Workshop (2025):</b> Organized by Futures Voyagers at BFF (Passion Project).</li>
+                    </ul>
+                </div>
+                <div class="service-tag">
+                    <h3>Technical Training</h3>
+                    <ul class="check-list">
+                        <li><b>Digital School:</b> Junior Python & Junior Back-end Developer.</li>
+                        <li><b>Coder Dojo (23/24):</b> Advanced Python Programming.</li>
+                        <li><b>Start:</b> C++ & Python Development Specialist.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="glass-card scroll-reveal">
+            <h2><i class="fas fa-microchip"></i> Engineering Projects</h2>
+            <div class="grid">
+                <div class="service-tag">
+                    <h3>Ricky 2.0</h3>
+                    <p>Advanced tracked robot with an articulated arm. Designed in <b>SolidWorks</b> and powered by <b>Arduino Mega</b>.</p>
+                    <span class="badge">Mechatronics</span><span class="badge">C++</span>
+                </div>
+                <div class="service-tag">
+                    <h3>Piezoelectric Sensors</h3>
+                    <p>Research on energy-harvesting systems to generate electricity from mechanical stress and vibrations.</p>
+                    <span class="badge">Energy Harvesting</span><span class="badge">Hardware</span>
+                </div>
+                <div class="service-tag">
+                    <h3>Smart Solar Tracker</h3>
+                    <p>Dual-axis LDR-based system designed for maximum renewable energy efficiency.</p>
+                    <span class="badge">Energetika</span><span class="badge">Sustainability</span>
+                </div>
+            </div>
+            
+            <div class="cta-box">
+                <p>🚀 <b>Hungry for more?</b> I have dozens of other projects documented on my social channels!</p>
+                <a href="https://github.com/tarik00000" class="btn" target="_blank"><i class="fab fa-github"></i> GitHub Repo</a>
+                <a href="https://www.youtube.com/@SEMAXTA" class="btn" target="_blank" style="background: #ff0000; margin-left: 10px;"><i class="fab fa-youtube"></i> YouTube Channel</a>
+            </div>
+        </section>
+
+        <section id="services" class="glass-card scroll-reveal">
+            <h2><i class="fas fa-tools"></i> Professional Tech Services</h2>
+            <div class="grid">
+                <div class="service-tag">
+                    <h3>💻 IT & Hardware Repair</h3>
+                    <p>Full diagnostics and repair for Laptops, PCs, and high-end Audio gear (soldering, cleaning, thermal management).</p>
+                </div>
+                <div class="service-tag">
+                    <h3>🎮 Console Maintenance</h3>
+                    <p>Professional service for PlayStation and Xbox systems to prevent overheating and fix mechanical issues.</p>
+                </div>
+                <div class="service-tag">
+                    <h3>⚡ Electrical Systems</h3>
+                    <p>Implementation of electrical installations, low-current circuitry, and power distribution systems.</p>
+                </div>
+            </div>
+            <div style="text-align: center; margin-top: 50px;">
+                <a href="https://www.olx.ba/profil/elio17" target="_blank" class="btn olx-btn">Check OLX Reviews & Listings</a>
+            </div>
+        </section>
+
+        <section class="glass-card scroll-reveal">
+            <h2><i class="fas fa-hands-helping"></i> Experience & Volunteering</h2>
+            <div class="grid">
+                <div>
+                    <h3>Tech & Media</h3>
+                    <ul class="check-list">
+                        <li><b>SFF IT Department (2025):</b> Sarajevo Film Festival support.</li>
+                        <li><b>Inn&Tech (2026):</b> Innovation Presenter.</li>
+                        <li><b>Star Fest (2026):</b> Event Volunteer.</li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Community Support</h3>
+                    <ul class="check-list">
+                        <li><b>NGO Marathon (2024-2025):</b> Lead volunteer across 4 major races.</li>
+                        <li><b>Vučko Trail (2024):</b> Logistics for mountain marathon.</li>
+                        <li><b>Mladi Protiv Gladi:</b> Humanitarian field volunteer.</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-card scroll-reveal" style="text-align: center;">
+            <h2><i class="fas fa-trophy"></i> Awards & Recognition</h2>
+            <div style="font-size: 1.2rem;">
+                <p>🥇 <b>1st Place</b> - BOSEPO State Competition</p>
+                <p>🥉 <b>3rd Place</b> - SEF 2026 (Science & Engineering Fair)</p>
+                <p>🥉 <b>3rd Place</b> - START 2024 Coding Competition</p>
+            </div>
+        </section>
+
+    </div>
+
+    <footer>
+        <p>SEMAXTA &bull; Tarik Podgorica &bull; 2026</p>
+        <p style="font-size: 0.8rem; margin-top: 10px;">Designed for Hardware, Coded for Software.</p>
+    </footer>
+
+</body>
+</html>
